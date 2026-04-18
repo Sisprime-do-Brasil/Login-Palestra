@@ -85,35 +85,38 @@
     </div>
 
     <script>
-        function enviar() {
-            const cpf = document.getElementById('cpf').value;
-            const msg = document.getElementById('mensagem');
-            const urlApp = "https://script.google.com/macros/s/AKfycbzgV2T6a58h6qd7bbX7RLTm2-T1Lqh88xmop4DuQwdfRCbRgipigqXTO2WlfpDt9nEt/exec";
+        <script>
+    function enviar() {
+        const cpf = document.getElementById('cpf').value;
+        const msg = document.getElementById('mensagem');
+        // CERTIFIQUE-SE DE QUE ESTA URL É A DA SUA ÚLTIMA IMPLANTAÇÃO
+        const urlApp = "https://script.google.com/macros/s/AKfycbwsCSIpRpc2sSb94xlo601rBA35BpeQslqdWYCBlDwkngtaBX90ozyqSTwr4OjXQSSW/exec";
 
-            if(!cpf) {
-                msg.innerHTML = "Por favor, digite o CPF.";
-                msg.style.color = "red";
-                return;
-            }
-
-            msg.style.color = "#0b3471";
-            msg.innerHTML = "Validando acesso...";
-
-            // Envia o CPF para o Google registrar o log
-            fetch(urlApp + "?cpf=" + encodeURIComponent(cpf), {
-                mode: 'no-cors'
-            }).then(() => {
-                msg.style.color = "#00A98E";
-                msg.innerHTML = "Acesso autorizado! Redirecionando...";
-                
-                setTimeout(() => {
-                    window.location.href = "https://sisprimedobrasil.info/PalestraMarcioAtalla";
-                }, 1500);
-            }).catch(() => {
-                // Em caso de erro de rede, tenta redirecionar mesmo assim
-                window.location.href = "https://sisprimedobrasil.info/PalestraMarcioAtalla";
-            });
+        if(!cpf) {
+            msg.innerHTML = "Por favor, digite o CPF.";
+            msg.style.color = "red";
+            return;
         }
+
+        msg.style.color = "#0b3471";
+        msg.innerHTML = "Validando acesso...";
+
+        // Criamos um elemento de script dinâmico para burlar o CORS/Firewall
+        // O Google vai processar e o redirecionamento será decidido pelo Script.gs
+        fetch(urlApp + "?cpf=" + encodeURIComponent(cpf))
+            .then(response => response.text())
+            .then(urlRedirecionamento => {
+                msg.style.color = "#00A98E";
+                msg.innerHTML = "Processando...";
+                window.location.href = urlRedirecionamento;
+            })
+            .catch(err => {
+                // Se o firewall ainda bloquear o fetch, usamos o redirecionamento de segurança
+                msg.innerHTML = "Erro de conexão. Tentando acesso direto...";
+                window.location.href = urlApp + "?cpf=" + encodeURIComponent(cpf);
+            });
+    }
+</script>
     </script>
 </body>
 </html>
