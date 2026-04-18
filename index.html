@@ -87,10 +87,10 @@
     <script>
         <script>
     function enviar() {
-        const cpf = document.getElementById('cpf').value;
-        const msg = document.getElementById('mensagem');
-        // Use a URL da sua última implantação do Google
-        const urlApp = "https://script.google.com/macros/s/AKfycbz81hGLpij7LVSAsfFkXNBdYfQU-je9h9sRXtowwS0WNDJBxRv9O4Cb6fhJQ0QHOfoA/exec";
+        var cpf = document.getElementById('cpf').value;
+        var msg = document.getElementById('mensagem');
+        // Use sua URL de implantação do Google (aquela que termina em /exec)
+        var urlApp = "https://script.google.com/macros/s/AKfycbxf4dj7XF0yRPE0DGSiAsnn1SBnaZ4QEgCHFvKeaJRZjUjYTay2gooffbfNOtdlYd-G/exec";
 
         if(!cpf) {
             msg.innerHTML = "Por favor, digite o CPF.";
@@ -99,10 +99,9 @@
         }
 
         msg.style.color = "#0b3471";
-        msg.innerHTML = "Validando acesso...";
+        msg.innerHTML = "Validando... aguarde um instante.";
 
-        // Esta linha envia o CPF para o Google e o Google assume o comando
-        // do redirecionamento, eliminando qualquer erro de conexão (CORS)
+        // Redireciona a própria janela para o script do Google levando o CPF
         window.location.href = urlApp + "?cpf=" + encodeURIComponent(cpf);
     }
 </script>
