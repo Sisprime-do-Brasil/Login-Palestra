@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        
+        /* Imagem de Fundo */
+        background-image: url('https://lh3.googleusercontent.com/u/0/d/1y5RR3Zextv-LW6MHjhHDSyMoZYW1Gyl1');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+      }
+
+      .container {
+        position: relative;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+        width: 320px;
+        text-align: center;
+        border-top: 6px solid #0047BB; /* Azul Sisprime */
+      }
+
+      h2 { color: #0b3471; margin-top: 0; }
+      p { color: #666; font-size: 14px; }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin: 20px 0 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-sizing: border-box;
+        font-size: 16px;
+        text-align: center;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #0047BB;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      button:hover { background-color: #00A98E; } /* Verde para o hover */
+
+      #mensagem {
+        color: #d93025;
+        font-size: 13px;
+        margin-top: 15px;
+        line-height: 1.4;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      <h2>Acesso à Palestra</h2>
+      <p>Informe seu CPF para validar sua inscrição.</p>
+      
+      <input type="text" id="cpf" placeholder="000.000.000-00">
+      
+      <button onclick="validar()">ACESSAR AGORA</button>
+      
+      <div id="mensagem"></div>
+    </div>
+
+    <script>
+      function validar() {
+        const cpfInput = document.getElementById('cpf').value;
+        const msg = document.getElementById('mensagem');
+        
+        if(!cpfInput) {
+          msg.innerHTML = "Por favor, informe o CPF.";
+          return;
+        }
+
+        msg.style.color = "#666";
+        msg.innerHTML = "Verificando inscrição...";
+
+        google.script.run.withSuccessHandler(function(res) {
+          if (res.sucesso) {
+            msg.style.color = "#00A98E";
+            msg.innerHTML = "Inscrição confirmada! Redirecionando...";
+            
+            // Redireciona para o link da palestra
+            window.top.location.href = "https://sisprimedobrasil.info/PalestraMarcioAtalla";
+          } else {
+            msg.style.color = "#d93025";
+            msg.innerHTML = res.mensagem; // Aqui aparece o link de cadastro se não existir
+          }
+        }).validarECaminhar(cpfInput);
+      }
+    </script>
+  </body>
+</html>
