@@ -89,8 +89,8 @@
     function enviar() {
         const cpf = document.getElementById('cpf').value;
         const msg = document.getElementById('mensagem');
-        // CERTIFIQUE-SE DE QUE ESTA URL É A DA SUA ÚLTIMA IMPLANTAÇÃO
-        const urlApp = "https://script.google.com/macros/s/AKfycbwsCSIpRpc2sSb94xlo601rBA35BpeQslqdWYCBlDwkngtaBX90ozyqSTwr4OjXQSSW/exec";
+        // Use a URL da sua última implantação do Google
+        const urlApp = "https://script.google.com/macros/s/AKfycbz81hGLpij7LVSAsfFkXNBdYfQU-je9h9sRXtowwS0WNDJBxRv9O4Cb6fhJQ0QHOfoA/exec";
 
         if(!cpf) {
             msg.innerHTML = "Por favor, digite o CPF.";
@@ -101,20 +101,9 @@
         msg.style.color = "#0b3471";
         msg.innerHTML = "Validando acesso...";
 
-        // Criamos um elemento de script dinâmico para burlar o CORS/Firewall
-        // O Google vai processar e o redirecionamento será decidido pelo Script.gs
-        fetch(urlApp + "?cpf=" + encodeURIComponent(cpf))
-            .then(response => response.text())
-            .then(urlRedirecionamento => {
-                msg.style.color = "#00A98E";
-                msg.innerHTML = "Processando...";
-                window.location.href = urlRedirecionamento;
-            })
-            .catch(err => {
-                // Se o firewall ainda bloquear o fetch, usamos o redirecionamento de segurança
-                msg.innerHTML = "Erro de conexão. Tentando acesso direto...";
-                window.location.href = urlApp + "?cpf=" + encodeURIComponent(cpf);
-            });
+        // Esta linha envia o CPF para o Google e o Google assume o comando
+        // do redirecionamento, eliminando qualquer erro de conexão (CORS)
+        window.location.href = urlApp + "?cpf=" + encodeURIComponent(cpf);
     }
 </script>
     </script>
