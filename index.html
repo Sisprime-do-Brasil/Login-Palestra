@@ -98,7 +98,8 @@
     function enviar() {
         var cpf = document.getElementById('cpf').value;
         var msg = document.getElementById('mensagem');
-        var urlApp = "https://script.google.com/macros/s/AKfycbxeVJpi0IG1QZT2JNAT0CiQ7G4goLg-HbxmNr71CL-HEkMEWbM8nC7WpsQLWRObybuG/exec";
+
+        var urlApp = "https://script.google.com/macros/s/AKfycbxQt7DveH_-nXKNtQdAOAt9JJaL8K-gyXdrjMT2n8AVzAfHHp1rlW_wOqHIRcWO3Bjo/exec";
 
         if (!cpf) {
             msg.innerHTML = "Por favor, digite o CPF.";
@@ -107,7 +108,7 @@
         }
 
         msg.style.color = "#0b3471";
-        msg.innerHTML = "Validando...";
+        msg.innerHTML = "Validando acesso...";
 
         fetch(urlApp + "?cpf=" + encodeURIComponent(cpf))
             .then(response => response.text())
