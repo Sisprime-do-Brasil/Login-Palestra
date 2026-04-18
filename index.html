@@ -83,23 +83,33 @@
     </div>
 
     <script>
-        function enviar() {
-            var cpf = document.getElementById('cpf').value;
-            var msg = document.getElementById('mensagem');
-            // Seu novo link de execução do Google Script
-            var urlApp = "https://script.google.com/macros/s/AKfycbx7p0g7-vKseeYgjrRfRktbJfVT-hThO6n5X-QOhEZeVNvCdlGspl9pGau9xsmaPag/exec";
+    function enviar() {
+        var cpf = document.getElementById('cpf').value;
+        var msg = document.getElementById('mensagem');
+        var urlApp = "https://script.google.com/macros/s/AKfycbyPvRQZvFBWVgYNsTBc-kw8Q2xaFfpNtvqUkf-45ifsv8s803t09E1iTvN5F7vA4EJx/exec";
 
-            if(!cpf) {
-                msg.innerHTML = "Por favor, digite o CPF.";
-                msg.style.color = "red";
-                return;
-            }
-
-            msg.innerHTML = "Validando inscrição...";
-
-            // Redirecionamento direto para o Google validar e decidir o destino
-            window.location.href = urlApp + "?cpf=" + encodeURIComponent(cpf);
+        if(!cpf) {
+            msg.innerHTML = "Por favor, digite o CPF.";
+            msg.style.color = "red";
+            return;
         }
-    </script>
+
+        msg.style.color = "#0b3471";
+        msg.innerHTML = "Validando... por favor aguarde.";
+
+        // Método Híbrido: Tenta validar e receber o link, se falhar, força o redirecionamento
+        fetch(urlApp + "?cpf=" + encodeURIComponent(cpf))
+            .then(response => response.text())
+            .then(link => {
+                // Se o Google respondeu o link, vamos para ele
+                window.location.href = link;
+            })
+            .catch(err => {
+                // Plano B: Se o firewall bloquear a resposta, 
+                // o próprio link do Google fará o trabalho pesado
+                window.location.href = urlApp + "?cpf=" + encodeURIComponent(cpf);
+            });
+    }
+</script>
 </body>
 </html>
